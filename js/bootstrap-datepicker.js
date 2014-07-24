@@ -63,7 +63,7 @@
 				this.push.apply(this, new_array);
 			},
 			clear: function(){
-				this.length = 0;
+				this.splice(0);
 			},
 			copy: function(){
 				var a = new DateArray();
@@ -104,6 +104,8 @@
 
 		if (this.isInline){
 			this.picker.addClass('datepicker-inline').appendTo(this.element);
+			// Make inline datepicker tabbable
+			this.picker.attr("tabindex", "0");
 		}
 		else {
 			this.picker.addClass('datepicker-dropdown dropdown-menu');
@@ -323,17 +325,17 @@
 				];
 			}
 			else if (this.element.is('div')){  // inline datepicker
+				
 				this.isInline = true;
-				// Adding keyboard events for inline datepicker
 				this._events = [
-					[this.element, {
-						keyup: $.proxy(function(e){
-							if ($.inArray(e.keyCode, [27,37,39,38,40,32,13,9]) === -1)
-								this.update();
-						}, this),
-						keydown: $.proxy(this.keydown, this)
-					}]
-				];
+						[this.element, {
+							keyup: $.proxy(function(e){
+								if ($.inArray(e.keyCode, [27,37,39,38,40,32,13,9]) === -1)
+									this.update();
+							}, this),
+							keydown: $.proxy(this.keydown, this)
+						}]
+					];
 			}
 			else {
 				this._events = [
@@ -1162,11 +1164,10 @@
 						newViewDate.setUTCDate(focusDate.getUTCDate() + dir);
 					}
 					//if (this.dateWithinRange(newDate)){
-					
-					this.focusDate = this.viewDate = newViewDate;
-					this.setValue();
-					this.fill();
-					e.preventDefault();
+						this.focusDate = this.viewDate = newViewDate;
+						this.setValue();
+						this.fill();
+						e.preventDefault();
 					//}
 					break;
 				case 38: // up
@@ -1191,10 +1192,10 @@
 						newViewDate.setUTCDate(focusDate.getUTCDate() + dir * 7);
 					}
 					//if (this.dateWithinRange(newDate)){
-					this.focusDate = this.viewDate = newViewDate;
-					this.setValue();
-					this.fill();
-					e.preventDefault();
+						this.focusDate = this.viewDate = newViewDate;
+						this.setValue();
+						this.fill();
+						e.preventDefault();
 					//}
 					break;
 				case 32: // spacebar
@@ -1216,8 +1217,12 @@
 					}
 					break;
 				case 9: // tab
-					this.focusDate = null;
 					this.viewDate = this.dates.get(-1) || this.viewDate;
+					// for inline
+					if (this.element.is('div'))
+						break;
+					
+					this.focusDate = null;
 					this.fill();
 					this.hide();
 					break;
@@ -1677,9 +1682,7 @@
 	);
 	$(function(){
 		$('[data-provide="datepicker-inline"]').datepicker();
-		
-		//Make inline calendars tabbable
-		$('.datepicker.datepicker-inline').attr("tabindex", "0");
 	});
+
 
 }(window.jQuery));
