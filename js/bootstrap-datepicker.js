@@ -104,7 +104,7 @@
 
 		if (this.isInline){
 			this.picker.addClass('datepicker-inline').appendTo(this.element);
-			// Make inline datepicker tabbable
+			// Make inline calendar tabbable
 			this.picker.attr("tabindex", "0");
 		}
 		else {
@@ -1163,12 +1163,12 @@
 						newViewDate = new Date(focusDate);
 						newViewDate.setUTCDate(focusDate.getUTCDate() + dir);
 					}
-					//if (this.dateWithinRange(newDate)){
+					if (this.dateWithinRange(newViewDate)){
 						this.focusDate = this.viewDate = newViewDate;
 						this.setValue();
 						this.fill();
 						e.preventDefault();
-					//}
+					}
 					break;
 				case 38: // up
 				case 40: // down
@@ -1191,12 +1191,12 @@
 						newViewDate = new Date(focusDate);
 						newViewDate.setUTCDate(focusDate.getUTCDate() + dir * 7);
 					}
-					//if (this.dateWithinRange(newDate)){
+					if (this.dateWithinRange(newViewDate)){
 						this.focusDate = this.viewDate = newViewDate;
 						this.setValue();
 						this.fill();
 						e.preventDefault();
-					//}
+					}
 					break;
 				case 32: // spacebar
 					// Spacebar is used in manually typing dates in some formats.
