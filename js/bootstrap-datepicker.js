@@ -324,6 +324,16 @@
 			}
 			else if (this.element.is('div')){  // inline datepicker
 				this.isInline = true;
+				// Adding keyboard events for inline datepicker
+				this._events = [
+					[this.element, {
+						keyup: $.proxy(function(e){
+							if ($.inArray(e.keyCode, [27,37,39,38,40,32,13,9]) === -1)
+								this.update();
+						}, this),
+						keydown: $.proxy(this.keydown, this)
+					}]
+				];
 			}
 			else {
 				this._events = [
@@ -1151,12 +1161,13 @@
 						newViewDate = new Date(focusDate);
 						newViewDate.setUTCDate(focusDate.getUTCDate() + dir);
 					}
-					if (this.dateWithinRange(newDate)){
-						this.focusDate = this.viewDate = newViewDate;
-						this.setValue();
-						this.fill();
-						e.preventDefault();
-					}
+					//if (this.dateWithinRange(newDate)){
+					
+					this.focusDate = this.viewDate = newViewDate;
+					this.setValue();
+					this.fill();
+					e.preventDefault();
+					//}
 					break;
 				case 38: // up
 				case 40: // down
@@ -1179,12 +1190,12 @@
 						newViewDate = new Date(focusDate);
 						newViewDate.setUTCDate(focusDate.getUTCDate() + dir * 7);
 					}
-					if (this.dateWithinRange(newDate)){
-						this.focusDate = this.viewDate = newViewDate;
-						this.setValue();
-						this.fill();
-						e.preventDefault();
-					}
+					//if (this.dateWithinRange(newDate)){
+					this.focusDate = this.viewDate = newViewDate;
+					this.setValue();
+					this.fill();
+					e.preventDefault();
+					//}
 					break;
 				case 32: // spacebar
 					// Spacebar is used in manually typing dates in some formats.
