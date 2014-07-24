@@ -1677,6 +1677,9 @@
 	);
 	$(function(){
 		$('[data-provide="datepicker-inline"]').datepicker();
+		
+		//Make inline calendars tabbable
+		$('.datepicker.datepicker-inline').attr("tabindex", "0");
 	});
 
 }(window.jQuery));
